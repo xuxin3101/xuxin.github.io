@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>Mybatis流程及简单实用 | 我的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="宋熙卿,宋熙卿的博客">
+  
+  <meta name="description" content="mybatis的作用流程 mybatis的简单使用  mybatis的作用流程 mybatis是一个orm框架，是实现数据库表到po类的关系映射。mybatis运行的时候，首先通过mybatis_config.xml读取相关configtion配置，包括定义数据库连接信息，定义映射文件等。 当项目运行时，mybatis会先根据mybatis_config.xml中定义的信息启动创建一个数据库连接">
+<meta name="keywords" content="mybatis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mybatis流程及简单实用">
+<meta property="og:url" content="http://yoursite.com/2019/04/22/hello-world/index.html">
+<meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="mybatis的作用流程 mybatis的简单使用  mybatis的作用流程 mybatis是一个orm框架，是实现数据库表到po类的关系映射。mybatis运行的时候，首先通过mybatis_config.xml读取相关configtion配置，包括定义数据库连接信息，定义映射文件等。 当项目运行时，mybatis会先根据mybatis_config.xml中定义的信息启动创建一个数据库连接">
+<meta property="og:locale" content="zh_cn">
+<meta property="og:image" content="http://yoursite.com/images/pasted-0.png">
+<meta property="og:image" content="http://yoursite.com/images/pasted-1.png">
+<meta property="og:updated_time" content="2019-04-26T12:00:27.548Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mybatis流程及简单实用">
+<meta name="twitter:description" content="mybatis的作用流程 mybatis的简单使用  mybatis的作用流程 mybatis是一个orm框架，是实现数据库表到po类的关系映射。mybatis运行的时候，首先通过mybatis_config.xml读取相关configtion配置，包括定义数据库连接信息，定义映射文件等。 当项目运行时，mybatis会先根据mybatis_config.xml中定义的信息启动创建一个数据库连接">
+<meta name="twitter:image" content="http://yoursite.com/images/pasted-0.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">宋熙卿的博客</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                    
+                    <a href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>关于</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        宋熙卿的博客
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        一个正在成长的前端菜鸟
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="MinHow" target="_blank" href="//blog.gamewan.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/xuxin3101">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Mybatis流程及简单实用
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-04-22
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <ol>
+<li><a href="#mybatis的作用流程">mybatis的作用流程</a></li>
+<li><a href="#mybatis的简单使用">mybatis的简单使用</a></li>
+</ol>
+<h2 id="mybatis的作用流程"><a href="#mybatis的作用流程" class="headerlink" title="mybatis的作用流程"></a>mybatis的作用流程</h2><ul>
+<li>mybatis是一个orm框架，是实现数据库表到po类的关系映射。mybatis运行的时候，首先通过mybatis_config.xml读取相关configtion配置，包括定义数据库连接信息，定义映射文件等。</li>
+<li>当项目运行时，mybatis会先根据mybatis_config.xml中定义的信息启动创建一个数据库连接池。当我们servies中调用session时的时候，mybatis会根据写的sql的id（命名空间.sqlid）找到相应的sql语句并执行，然后将返回的结果与resulttype或者是resultmap做映射，返回一个Object。</li>
+</ul>
+<h2 id="mybatis的简单使用"><a href="#mybatis的简单使用" class="headerlink" title="mybatis的简单使用"></a>mybatis的简单使用</h2><p>在这里仅仅演示eclipse下，下载到本地使用mybatis，实际开发中，maven使用的更多，因为更加方便</p>
+<p>使用的步骤：  </p>
+<ol>
+<li><a href="#mybatis下载">mybatis下载</a></li>
+<li><a href="#mybatis导入项目">mybatis导入项目</a></li>
+<li><a href="#新建一个测试表">新建一个测试表</a></li>
+<li><a href="#新建mybatis_config.xml">新建mybatis_config.xml</a></li>
+<li><a href="#新建Mapperxml文件">新建Mapperxml</a></li>
+<li><a href="#编写映射文件">编写映射文件</a></li>
+<li><a href="#编写po类">编写po类</a></li>
+<li><a href="#引入mysqlconnect的jar包">引入mysqlconnect的jar包</a></li>
+<li><a href="#创建测试类">创建测试类</a></li>
+<li><a href="#总结">总结</a></li>
+</ol>
+<h3 id="mybatis下载"><a href="#mybatis下载" class="headerlink" title="mybatis下载"></a>mybatis下载</h3><p>下载地址：<br><code>https://github.com/mybatis/mybatis-3/releases</code></p>
+<p><img src="/images/pasted-0.png" alt="upload successful"><br>在这里当然选择下载最新的<br>右键解压，这里面就是mybatis的文件了，我们主要用的是mybatis-3.5.1.jar和lib下面依赖的其他第三方包  </p>
+<h3 id="mybatis导入项目"><a href="#mybatis导入项目" class="headerlink" title="mybatis导入项目"></a>mybatis导入项目</h3><ul>
+<li><p>新建一个java项目，在主目录下新建一个lib文件夹，将<code>mybatis-3.5.1.jar</code>和<code>lib</code>下所有的jar包复制到项目中的lib中去<br>项目右键 build Path -&gt; configure build path -&gt; libraries -&gt; add jars -&gt;选中所有的jar包，确定</p>
+<h3 id="新建一个测试表"><a href="#新建一个测试表" class="headerlink" title="新建一个测试表"></a>新建一个测试表</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`user`</span> (</span><br><span class="line"><span class="string">`id`</span>  <span class="built_in">int</span>(<span class="number">3</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> ,</span><br><span class="line"><span class="string">`username`</span>  <span class="built_in">varchar</span>(<span class="number">15</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> ,</span><br><span class="line"><span class="string">`age`</span>  <span class="built_in">int</span>(<span class="number">3</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> ,</span><br><span class="line">PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">)</span><br><span class="line">;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>插入一条数据<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">user</span> <span class="keyword">values</span>(<span class="number">1</span>,<span class="string">'宋熙卿'</span>,<span class="number">22</span>);</span><br></pre></td></tr></table></figure></p>
+<h3 id="新建mybatis-config-xml"><a href="#新建mybatis-config-xml" class="headerlink" title="新建mybatis_config.xml"></a>新建mybatis_config.xml</h3><p>在src下新建文件mybatis_config.xml(文件名称不一定是这个)<br>写入配置信息<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE configuration</span></span><br><span class="line"><span class="meta">  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"</span></span><br><span class="line"><span class="meta">  "http://mybatis.org/dtd/mybatis-3-config.dtd"&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">environments</span> <span class="attr">default</span>=<span class="string">"development"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">environment</span> <span class="attr">id</span>=<span class="string">"development"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">transactionManager</span> <span class="attr">type</span>=<span class="string">"JDBC"</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">dataSource</span> <span class="attr">type</span>=<span class="string">"POOLED"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driver"</span> <span class="attr">value</span>=<span class="string">"com.mysql.cj.jdbc.Driver"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"jdbc:mysql://localhost:3306/test?useUnicode=true&amp;amp;characterEncoding=utf8&amp;amp;serverTimezone=GMT%2B8"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"root"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"123456"</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">dataSource</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">environment</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">environments</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mappers</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mapper</span> <span class="attr">resource</span>=<span class="string">"example/UserMapper.xml"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mappers</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="新建Mapperxml文件"><a href="#新建Mapperxml文件" class="headerlink" title="新建Mapperxml文件"></a>新建Mapperxml文件</h3><ul>
+<li>细心的同学可能会发现在新建mybatis_config.xml的时候有个mappers下面有个mapper<br>这里面保存的是映射文件，根据我们上面写的配置我们的映射文件应该在exmaple包下面，名字为UserMapper.xml<br>所以在src下新建package 名为example<br>在example包下面新建<code>UserMapper.xml</code></li>
+</ul>
+<h3 id="编写映射文件"><a href="#编写映射文件" class="headerlink" title="编写映射文件"></a>编写映射文件</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE mapper</span></span><br><span class="line"><span class="meta">  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"</span></span><br><span class="line"><span class="meta">  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">"org.mybatis.example.UserMapper"</span> &gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"selectUserByName"</span> <span class="attr">parameterType</span>=<span class="string">"String"</span> <span class="attr">resultType</span>=<span class="string">"Po.User"</span>&gt;</span></span><br><span class="line">    select * from user where username = #&#123;username&#125;;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="编写po类"><a href="#编写po类" class="headerlink" title="编写po类"></a>编写po类</h3><p>mybatis是一个orm框架，所以是将查询出来的数据与java类做映射，细心的同学会发现，上面的映射文件中查出的结果放到了resulType为User的对象中，所以我们应该有一个User类  </p>
+<ul>
+<li>新建一个Po包，在里面创建一个User类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> Po;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Integer id;</span><br><span class="line">	<span class="keyword">private</span> String username;</span><br><span class="line">	<span class="keyword">private</span> Integer age;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Integer <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> id;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(Integer id)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.id = id;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"User [id="</span> + id + <span class="string">", username="</span> + username + <span class="string">", age="</span> + age + <span class="string">"]"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getUsername</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> username;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUsername</span><span class="params">(String username)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.username = username;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Integer <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> age;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(Integer age)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.age = age;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="引入mysqlconnect的jar包"><a href="#引入mysqlconnect的jar包" class="headerlink" title="引入mysqlconnect的jar包"></a>引入mysqlconnect的jar包</h3><ul>
+<li>下载mysql的连接包<br>下载地址<code>https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.15.zip</code><br>解压后将<code>mysql-connector-java-8.0.15.jar</code>复制到lib中并buid path</li>
+</ul>
+<h3 id="创建测试类"><a href="#创建测试类" class="headerlink" title="创建测试类"></a>创建测试类</h3><ul>
+<li>创建测试类<code>MainClass</code>在test包下面<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.io.Resources;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.session.SqlSession;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.session.SqlSessionFactory;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.session.SqlSessionFactoryBuilder;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> Po.User;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		String resource = <span class="string">"mybatis_config.xml"</span>;</span><br><span class="line">		InputStream inputStream=<span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			inputStream = Resources.getResourceAsStream(resource);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		SqlSessionFactory sqlSessionFactory = <span class="keyword">new</span> SqlSessionFactoryBuilder().build(inputStream);</span><br><span class="line">		SqlSession session=sqlSessionFactory.openSession();</span><br><span class="line">		User user=(User)session.selectOne(<span class="string">"org.mybatis.example.UserMapper.selectUserByName"</span>,<span class="string">"宋熙卿"</span>);</span><br><span class="line">		System.out.println(user.toString());</span><br><span class="line">      session.close();</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="/images/pasted-1.png" alt="upload successful"></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>这是mybatis的简单使用，说来很简单，但是实际使用，尤其是从0开始的话，真的会出现不少问题，所以遇到问题的时候我们呀善于去解决问题，善于debug，出现问题的时候，或者不会的时候，文档一般非常有用<br><a href="http://www.mybatis.org/mybatis-3/zh/getting-started.html" target="_blank" rel="noopener">mybatis官方文档</a><br>在这里总结一下自己遇的问题<h4 id="引入的jar包不被识别"><a href="#引入的jar包不被识别" class="headerlink" title="引入的jar包不被识别"></a>引入的jar包不被识别</h4></li>
+<li>这是很多新手容易犯的问题，解决方案是build path<h4 id="driver不识别"><a href="#driver不识别" class="headerlink" title="driver不识别"></a>driver不识别</h4></li>
+<li>这个问题是因为我们下载的mysql官方最新的连接jar包，在这个jar包中已经废弃了原来的<code>com.mysql.jdbc.Driver</code>,所以在这里只需要改成<code>com.mysql.cj.jdbc.Driver</code> 即可<h4 id="mysql时区和编码问题"><a href="#mysql时区和编码问题" class="headerlink" title="mysql时区和编码问题"></a>mysql时区和编码问题</h4></li>
+<li>因为mysql的时区可能没有设置为和本地时区一样，所以可能数据返回的时候出现时区问题，还有编码问题，现在中文环境下建议使用utf8，所以我们应该把我们的url写成<code>jdbc:mysql://localhost:3306/test?useUnicode=true&amp;amp;characterEncoding=utf8&amp;amp;serverTimezone=GMT%2B8</code></li>
+<li>注意在这里面还会出现什么要分号在什么值钱的问题，㘝上述连接已解决，直接使用即可，注意替换数据库名称，这里使用的是<code>test</code>数据库<h4 id="mapper返回类找不到"><a href="#mapper返回类找不到" class="headerlink" title="mapper返回类找不到"></a>mapper返回类找不到</h4></li>
+<li>这个问题是因为可能自己只写了类名，但是没有写具体的包，所以会出现这个问题，解决方案是写完整类名，还有一种方案是使用别名</li>
+</ul>
+<p>这个只是mybatis的入门程序，SqlSessionFactory应该使用单例模式，不应该每次创建新的，因为一个SqlSessionFactory就是一个数据库连接池，创建销毁需要很大的开销。</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年04月26日 20:00</p>
+        <p>原始链接： <a class="post-url" href="/2019/04/22/hello-world/" title="Mybatis流程及简单实用">http://yoursite.com/2019/04/22/hello-world/</a></p>
+        <footer>
+            <a href="http://yoursite.com">
+                <img src="/images/logo.png" alt="宋熙卿e">
+                宋熙卿e
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我吃糖~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/04/22/hello-world/&title=《Mybatis流程及简单实用》 — 我的博客&pic=http://yoursite.comimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/04/22/hello-world/&title=《Mybatis流程及简单实用》 — 我的博客&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/04/22/hello-world/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Mybatis流程及简单实用》 — 我的博客&url=http://yoursite.com/2019/04/22/hello-world/&via=http://yoursite.com" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/04/22/hello-world/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=http://yoursite.com/2019/04/22/hello-world/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/mybatis/" class="color3">mybatis</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#mybatis的作用流程"><span class="post-toc-text">mybatis的作用流程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#mybatis的简单使用"><span class="post-toc-text">mybatis的简单使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#mybatis下载"><span class="post-toc-text">mybatis下载</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#mybatis导入项目"><span class="post-toc-text">mybatis导入项目</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#新建一个测试表"><span class="post-toc-text">新建一个测试表</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#新建mybatis-config-xml"><span class="post-toc-text">新建mybatis_config.xml</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#新建Mapperxml文件"><span class="post-toc-text">新建Mapperxml文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#编写映射文件"><span class="post-toc-text">编写映射文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#编写po类"><span class="post-toc-text">编写po类</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#引入mysqlconnect的jar包"><span class="post-toc-text">引入mysqlconnect的jar包</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建测试类"><span class="post-toc-text">创建测试类</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#总结"><span class="post-toc-text">总结</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#引入的jar包不被识别"><span class="post-toc-text">引入的jar包不被识别</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#driver不识别"><span class="post-toc-text">driver不识别</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#mysql时区和编码问题"><span class="post-toc-text">mysql时区和编码问题</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#mapper返回类找不到"><span class="post-toc-text">mapper返回类找不到</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/04/26/Mybatis标签详解/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Mybatis标签详解
+        
+      </span>
+    </a>
+  
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2019 宋熙卿e<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://yoursite.com",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/mvc/" style="font-size: 10px;">mvc</a> <a href="/tags/mybatis/" style="font-size: 20px;">mybatis</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/archives">
+                    <i class="fa fa-archive"></i><span>归档</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="/about">
+                    <i class="fa fa-user"></i><span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/mvc/" style="font-size: 10px;">mvc</a> <a href="/tags/mybatis/" style="font-size: 20px;">mybatis</a> <a href="/tags/spring/" style="font-size: 10px;">spring</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
