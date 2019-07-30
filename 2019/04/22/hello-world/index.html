@@ -16,13 +16,13 @@
 <meta property="og:site_name" content="我的博客">
 <meta property="og:description" content="mybatis的作用流程 mybatis的简单使用  mybatis的作用流程 mybatis是一个orm框架，是实现数据库表到po类的关系映射。mybatis运行的时候，首先通过mybatis_config.xml读取相关configtion配置，包括定义数据库连接信息，定义映射文件等。 当项目运行时，mybatis会先根据mybatis_config.xml中定义的信息启动创建一个数据库连接">
 <meta property="og:locale" content="zh_cn">
-<meta property="og:image" content="https://github.com/images/pasted-0.png">
-<meta property="og:image" content="https://github.com/images/pasted-1.png">
-<meta property="og:updated_time" content="2019-04-26T12:00:27.548Z">
+<meta property="og:image" content="https://github.com/xuxin.github.io/images/pasted-0.png">
+<meta property="og:image" content="https://github.com/xuxin.github.io/images/pasted-1.png">
+<meta property="og:updated_time" content="2019-07-30T10:35:29.199Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mybatis流程及简单实用">
 <meta name="twitter:description" content="mybatis的作用流程 mybatis的简单使用  mybatis的作用流程 mybatis是一个orm框架，是实现数据库表到po类的关系映射。mybatis运行的时候，首先通过mybatis_config.xml读取相关configtion配置，包括定义数据库连接信息，定义映射文件等。 当项目运行时，mybatis会先根据mybatis_config.xml中定义的信息启动创建一个数据库连接">
-<meta name="twitter:image" content="https://github.com/images/pasted-0.png">
+<meta name="twitter:image" content="https://github.com/xuxin.github.io/images/pasted-0.png">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -159,7 +159,7 @@
 <li><a href="#总结">总结</a></li>
 </ol>
 <h3 id="mybatis下载"><a href="#mybatis下载" class="headerlink" title="mybatis下载"></a>mybatis下载</h3><p>下载地址：<br><code>https://github.com/mybatis/mybatis-3/releases</code></p>
-<p><img src="/images/pasted-0.png" alt="upload successful"><br>在这里当然选择下载最新的<br>右键解压，这里面就是mybatis的文件了，我们主要用的是mybatis-3.5.1.jar和lib下面依赖的其他第三方包  </p>
+<p><img src="/xuxin.github.io/images/pasted-0.png" alt="upload successful"><br>在这里当然选择下载最新的<br>右键解压，这里面就是mybatis的文件了，我们主要用的是mybatis-3.5.1.jar和lib下面依赖的其他第三方包  </p>
 <h3 id="mybatis导入项目"><a href="#mybatis导入项目" class="headerlink" title="mybatis导入项目"></a>mybatis导入项目</h3><ul>
 <li><p>新建一个java项目，在主目录下新建一个lib文件夹，将<code>mybatis-3.5.1.jar</code>和<code>lib</code>下所有的jar包复制到项目中的lib中去<br>项目右键 build Path -&gt; configure build path -&gt; libraries -&gt; add jars -&gt;选中所有的jar包，确定</p>
 <h3 id="新建一个测试表"><a href="#新建一个测试表" class="headerlink" title="新建一个测试表"></a>新建一个测试表</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`user`</span> (</span><br><span class="line"><span class="string">`id`</span>  <span class="built_in">int</span>(<span class="number">3</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> ,</span><br><span class="line"><span class="string">`username`</span>  <span class="built_in">varchar</span>(<span class="number">15</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> ,</span><br><span class="line"><span class="string">`age`</span>  <span class="built_in">int</span>(<span class="number">3</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> ,</span><br><span class="line">PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">)</span><br><span class="line">;</span><br></pre></td></tr></table></figure>
@@ -183,7 +183,7 @@
 <li>创建测试类<code>MainClass</code>在test包下面<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.io.Resources;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.session.SqlSession;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.session.SqlSessionFactory;</span><br><span class="line"><span class="keyword">import</span> org.apache.ibatis.session.SqlSessionFactoryBuilder;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> Po.User;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		String resource = <span class="string">"mybatis_config.xml"</span>;</span><br><span class="line">		InputStream inputStream=<span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			inputStream = Resources.getResourceAsStream(resource);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		SqlSessionFactory sqlSessionFactory = <span class="keyword">new</span> SqlSessionFactoryBuilder().build(inputStream);</span><br><span class="line">		SqlSession session=sqlSessionFactory.openSession();</span><br><span class="line">		User user=(User)session.selectOne(<span class="string">"org.mybatis.example.UserMapper.selectUserByName"</span>,<span class="string">"宋熙卿"</span>);</span><br><span class="line">		System.out.println(user.toString());</span><br><span class="line">      session.close();</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p><img src="/images/pasted-1.png" alt="upload successful"></p>
+<p><img src="/xuxin.github.io/images/pasted-1.png" alt="upload successful"></p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
 <li>这是mybatis的简单使用，说来很简单，但是实际使用，尤其是从0开始的话，真的会出现不少问题，所以遇到问题的时候我们呀善于去解决问题，善于debug，出现问题的时候，或者不会的时候，文档一般非常有用<br><a href="http://www.mybatis.org/mybatis-3/zh/getting-started.html" target="_blank" rel="noopener">mybatis官方文档</a><br>在这里总结一下自己遇的问题<h4 id="引入的jar包不被识别"><a href="#引入的jar包不被识别" class="headerlink" title="引入的jar包不被识别"></a>引入的jar包不被识别</h4></li>
 <li>这是很多新手容易犯的问题，解决方案是build path<h4 id="driver不识别"><a href="#driver不识别" class="headerlink" title="driver不识别"></a>driver不识别</h4></li>
@@ -196,7 +196,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2019年04月26日 20:00</p>
+        <p>最后更新： 2019年07月30日 18:35</p>
         <p>原始链接： <a class="post-url" href="/xuxin.github.io/2019/04/22/hello-world/" title="Mybatis流程及简单实用">https://github.com/xuxin3101/xuxin.github.io/2019/04/22/hello-world/</a></p>
         <footer>
             <a href="https://github.com/xuxin3101/xuxin.github.io">
@@ -393,7 +393,7 @@
             
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/xuxin.github.io/tags/mvc/" style="font-size: 10px;">mvc</a> <a href="/xuxin.github.io/tags/mybatis/" style="font-size: 20px;">mybatis</a> <a href="/xuxin.github.io/tags/spring/" style="font-size: 10px;">spring</a>
+            <a href="/xuxin.github.io/tags/mvc/" style="font-size: 10px;">mvc</a> <a href="/xuxin.github.io/tags/mybatis/" style="font-size: 20px;">mybatis</a> <a href="/xuxin.github.io/tags/orm/" style="font-size: 10px;">orm</a> <a href="/xuxin.github.io/tags/spring/" style="font-size: 15px;">spring</a> <a href="/xuxin.github.io/tags/事务/" style="font-size: 10px;">事务</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -426,7 +426,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/xuxin.github.io/tags/mvc/" style="font-size: 10px;">mvc</a> <a href="/xuxin.github.io/tags/mybatis/" style="font-size: 20px;">mybatis</a> <a href="/xuxin.github.io/tags/spring/" style="font-size: 10px;">spring</a>
+            <a href="/xuxin.github.io/tags/mvc/" style="font-size: 10px;">mvc</a> <a href="/xuxin.github.io/tags/mybatis/" style="font-size: 20px;">mybatis</a> <a href="/xuxin.github.io/tags/orm/" style="font-size: 10px;">orm</a> <a href="/xuxin.github.io/tags/spring/" style="font-size: 15px;">spring</a> <a href="/xuxin.github.io/tags/事务/" style="font-size: 10px;">事务</a>
         </div>
     </div>
 </div>
